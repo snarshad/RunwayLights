@@ -1,0 +1,69 @@
+#/etc/init.d/runway
+
+### BEGIN INIT INFO
+# Provides: runway
+# Required-Start: 
+# Required-Stop: 
+# Should-Start: 
+# Should-Stop: 
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start and stop runway
+# Description: Runway lights daemon
+### END INIT INFO
+
+DISABLED=0
+DAEMON=/usr/bin/python
+FORKING=1
+
+#name should be 'runway'
+NAME=$(command basename "${0}")
+
+# Read configuration variable file if it is present
+# configuration file contains RUNWAY_PATH and RUNWAY_SCRIPT variables
+[ -r "/etc/default/${NAME}" ] && . "/etc/default/${NAME}"
+
+DAEMON_ARGS="${RUNWAY_PATH}/${RUNWAY_SCRIPT}"
+DAEMON_DIR="${RUNWAY_PATH}"
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
+. /lib/lsb/init-functions
+
+if [ "$DISABLED" != "0" -a "$1" != "stop" ]; then
+   log_warning_msg "Not starting $DESC - edit /etc/default/tt-rss-DOMAIN and change DISABLED to be 0.";
+   exit 0;
+fi
+
+
+APP_NAME=runway
+APP_PATH="$RUNWAY_PATH/daemon/$APP_NAME"
+
+APP_USER=pi
+
+case "$1" in
+start)
+    echo "Starting $APP_NAME"
+
+    start-stop-daemon --start \
+                      --background \
+                      --make-pidfile \
+                      --pidfile /var/run/$APP_NAME.pid \
+                      --chuid $APP_USER \
+                      --exec "$DAEMON" \
+                      -- "$DAEMON_ARGS"
+;;
+stop)
+
+    echo "Stopping $APP_NAME"
+            start-stop-daemon -o  --stop \
+            --pidfile /var/run/$APP_NAME.pid
+
+;;
+*)
+echo "Usage: /etc/init.d/$APP_NAME {start|stop}"
+exit 1
+;;
+esac
+
+exit 0

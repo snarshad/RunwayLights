@@ -1,0 +1,13 @@
+#!/bin/sh
+set -x
+
+#this script is run by the init daemon when you run
+# sudo service runway start
+
+### 
+echo "Run README.sh if you haven't yet!"
+###
+
+FLASHER="$PWD/../Flasher.py"
+
+sudo python $FLASHER

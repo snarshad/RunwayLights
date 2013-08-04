@@ -33,3 +33,12 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Apple crap
+__MACOSX
+.AppleDouble
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+

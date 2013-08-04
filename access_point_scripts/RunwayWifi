@@ -32,12 +32,12 @@ then
 else
   echo "NOTE: No mode specified. Here's the current interfaces:"
   echo
-  more $DIR/interfaces
+  more $NETWORKDIR/interfaces
   echo
   echo "NOTE: If you want to switch modes..."
   echo $howto
   exit $E_NOARGS
 fi
 
-more $DIR/interfaces
+more $NETWORKDIR/interfaces
 echo "done"
